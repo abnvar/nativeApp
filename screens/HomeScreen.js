@@ -2,6 +2,7 @@ import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
 import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { AuthSession } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
@@ -10,13 +11,18 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
-          <Image
+          {/*<Image
             source={
               __DEV__
                 ? require('../assets/images/robot-dev.png')
                 : require('../assets/images/robot-prod.png')
             }
             style={styles.welcomeImage}
+          />
+          */}
+          <Image
+            style={{position:'relative',height:100, width:100, borderRadius:100}}
+            source={require("../assets/images/bg.gif")}
           />
         </View>
 
@@ -30,7 +36,7 @@ export default function HomeScreen() {
 
       </ScrollView>
 
-      <View style={styles.tabBarInfoContainer}>
+      <TouchableOpacity style={styles.tabBarInfoContainer} onPress={() => authenticateUser()}>
         <Text style={styles.tabBarInfoText}>Login with:  </Text>
         <View style={{width:5}}></View>
         <Image
@@ -40,7 +46,7 @@ export default function HomeScreen() {
           }
         />
         <Text style={styles.tabBarInfoText}> Instagram</Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -48,6 +54,15 @@ export default function HomeScreen() {
 HomeScreen.navigationOptions = {
   header: null,
 };
+
+async function authenticateUser() {
+  let redirectUrl = AuthSession.getRedirectUrl();
+  let authURL = "https://api.instagram.com/oauth/authorize?client_id=523772874878112"
+  let nothing = "&redirect_uri=https://abnvar.htmlsave.com/&scope=user_profile,user_media&response_type=code"
+  let authResult = await AuthSession.startAsync({authUrl: authURL + `&redirect_uri=${encodeURIComponent(redirectUrl)}`});
+
+  console.log(authResult)
+}
 
 function DevelopmentModeNotice() {
   if (__DEV__) {
