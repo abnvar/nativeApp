@@ -1,8 +1,7 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Animated } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Animated, Linking } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { AuthSession } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 
@@ -55,13 +54,17 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
-async function authenticateUser() {
-  let redirectUrl = AuthSession.getRedirectUrl();
-  let authURL = "https://api.instagram.com/oauth/authorize?client_id=523772874878112"
-  let nothing = "&redirect_uri=https://abnvar.htmlsave.com/&scope=user_profile,user_media&response_type=code"
-  let authResult = await AuthSession.startAsync({authUrl: authURL + `&redirect_uri=${encodeURIComponent(redirectUrl)}`});
+function handleUrl(url) {
+  console.log(url);
+  WebBrowser.dismissBrowser();
+}
 
-  console.log(authResult)
+async function authenticateUser() {
+  Linking.addEventListener('url', handleUrl);
+  let authURL = "https://api.instagram.com/oauth/authorize?client_id=523772874878112&redirect_uri=https://abnvar.htmlsave.com/&scope=user_profile,user_media&response_type=code";
+  let authResult = WebBrowser.openBrowserAsync(authURL);
+  console.log(authResult);
+  WebBrowser.dismissBrowser();
 }
 
 function DevelopmentModeNotice() {
