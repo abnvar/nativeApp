@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Animated, Linking } from 'react-native';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Animated, Linking, WebView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { MonoText } from '../components/StyledText';
@@ -60,11 +60,15 @@ function handleUrl(url) {
 }
 
 async function authenticateUser() {
+  HomeScreen.navigationOptions = {
+    header: 'Login',
+  };
+  {/*
   Linking.addEventListener('url', handleUrl);
   let authURL = "https://api.instagram.com/oauth/authorize?client_id=523772874878112&redirect_uri=https://abnvar.htmlsave.com/&scope=user_profile,user_media&response_type=code";
   let authResult = WebBrowser.openBrowserAsync(authURL);
   console.log(authResult);
-  WebBrowser.dismissBrowser();
+  */}
 }
 
 function DevelopmentModeNotice() {

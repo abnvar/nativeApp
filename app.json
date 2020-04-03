@@ -29,6 +29,7 @@
     "android": {
       "package": "mypackage"
     },
-    "entryPoint": "node_modules/expo/AppEntry.js"
+    "entryPoint": "node_modules/expo/AppEntry.js",
+    "description": ""
   }
 }
