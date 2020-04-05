@@ -26,7 +26,15 @@ export default function HomeScreen({ navigation }) {
 
       </ScrollView>
 
-      <TouchableOpacity style={styles.tabBarInfoContainer} onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity style={styles.signupBarInfoContainer} onPress={() => navigation.navigate('Signup')}>
+        <Text style={styles.tabBarInfoText}>Signup</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.loginBarInfoContainer} onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.tabBarInfoText}>Login</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.instaLoginBarInfoContainer} onPress={() => navigation.navigate('Instagram Login')}>
         <Text style={styles.tabBarInfoText}>Login with:  </Text>
         <View style={{width:5}}></View>
         <Image
@@ -131,7 +139,55 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: 'center',
   },
-  tabBarInfoContainer: {
+  signupBarInfoContainer: {
+    position: 'absolute',
+    bottom: 72,
+    left: 0,
+    right: 0,
+    width: '49.5%',
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 20,
+      },
+    }),
+    alignItems: 'center',
+    backgroundColor: '#fbfbfb',
+    paddingVertical: 20,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  loginBarInfoContainer: {
+    position: 'absolute',
+    bottom: 72,
+    left: '50.5%',
+    right: 0,
+    width: '49.5%',
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 20,
+      },
+    }),
+    alignItems: 'center',
+    backgroundColor: '#fbfbfb',
+    paddingVertical: 20,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  instaLoginBarInfoContainer: {
     position: 'absolute',
     bottom: 0,
     left: 0,

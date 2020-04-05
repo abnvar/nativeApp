@@ -35,7 +35,7 @@ writeUserData('hello@yo.com', 'mera naam', 'chin chin chu');
 
 let navigateToMain = 0
 
-export default function LoginScreen({ navigation }) {
+export default function SignupScreen({ navigation }) {
   navigateToMain = () => {
     navigation.navigate('Main');
   }
@@ -45,7 +45,7 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.welcomeContainer}>
 
           <Text style={styles.getStartedText}>
-            This is login screen.
+            This is signup screen.
           </Text>
         </View>
 

@@ -13,7 +13,9 @@ import useLinking from './navigation/useLinking';
 const Stack = createStackNavigator();
 
 import HomeScreen from './screens/HomeScreen';
+import SignupScreen from './screens/SignupScreen';
 import LoginScreen from './screens/LoginScreen';
+import InstaLoginScreen from './screens/InstaLoginScreen';
 import MainPlaceholder from './screens/MainPlaceholder';
 
 
@@ -21,7 +23,9 @@ function MyStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/>
+      <Stack.Screen name="Signup" component={SignupScreen}/>
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Instagram Login" component={InstaLoginScreen} />
       <Stack.Screen name="Main" component={MainPlaceholder} options={{headerShown:false}}/>
     </Stack.Navigator>
   );
