@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "FirstDraft",
-    "slug": "firstdraft",
+    "name": "testapp",
+    "slug": "testapp",
     "platforms": [
       "ios",
       "android",
@@ -27,7 +27,7 @@
       "bundleIdentifier": "ios"
     },
     "android": {
-      "package": "mypackage"
+      "package": "com.myapp"
     },
     "entryPoint": "node_modules/expo/AppEntry.js",
     "description": ""

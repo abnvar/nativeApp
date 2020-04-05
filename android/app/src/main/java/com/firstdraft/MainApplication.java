@@ -1,4 +1,4 @@
-package com.awesomeproject;
+package com.firstdraft;
 
 import android.app.Application;
 import android.net.Uri;
@@ -9,7 +9,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.awesomeproject.generated.BasePackageList;
+import com.firstdraft.generated.BasePackageList;
 
 import org.unimodules.adapters.react.ReactAdapterPackage;
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
