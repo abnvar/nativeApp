@@ -1,87 +1,58 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Animated, Linking, WebView } from 'react-native';
+import { useState } from 'react';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View, Animated, Linking, WebView, AsyncStorage } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { MonoText } from '../components/StyledText';
 
-export default function HomeScreen({ navigation }) {
+import { getUsername } from './global.js'
+
+export default function MainScreen({ navigation }) {
+
+  const [username, setUsername] = useState('');
+
+  async function getUsername() {
+    const usr = await AsyncStorage.getItem('username');
+    await console.log(usr);
+    await setUsername(usr);
+  }
+
+  getUsername();
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-
-          <Image
-            style={{position:'relative',height:100, width:100, borderRadius:100}}
-            source={require("../assets/images/bg.gif")}
-          />
-        </View>
-
-        <View style={styles.getStartedContainer}>
-
-          <Text style={styles.getStartedText}>
-            Hi, welcome to the app.
+        <View style={styles.getStartedContainer} onLoad={getUsername}>
+          <Text>
+            Hi, {username}!
           </Text>
         </View>
-
       </ScrollView>
-
-      <TouchableOpacity style={styles.tabBarInfoContainer} onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.tabBarInfoText}>Login with:  </Text>
-        <View style={{width:5}}></View>
-        <Image
-          style={{width:30, height:30}}
-          source={
-              require('../assets/images/instagram_logo.png')
-          }
-        />
-        <Text style={styles.tabBarInfoText}> Instagram</Text>
-      </TouchableOpacity>
     </View>
   );
+
 }
 
-HomeScreen.navigationOptions = {
-  headerMode: 'none',
+{/*
+  return (
+    <View style={styles.container}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <View style={styles.getStartedContainer}>
+          <DynamicComponent />
+        </View>
+      </ScrollView>
+    </View>
+  );
+
+*/}
+
+
+MainScreen.navigationOptions = {
+  header: null,
 };
 
-function handleUrl(url) {
-  console.log(url);
-  WebBrowser.dismissBrowser();
-}
 
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use useful development
-        tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/workflow/development-mode/');
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/get-started/create-a-new-app/#making-your-first-change'
-  );
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -96,7 +67,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    paddingTop: 175,
+    paddingTop: 30,
   },
   welcomeContainer: {
     alignItems: 'center',

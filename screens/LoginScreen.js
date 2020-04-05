@@ -1,12 +1,15 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import {WebView} from 'react-native-webview'
 
 let code = ''
-let access_token_awaited = 1
+let access_token_retrieved = 0
+let access_token = 0
+let user_id = 0
+let username = null
 
 {/*
 <WebView
@@ -14,19 +17,23 @@ let access_token_awaited = 1
   />
 */}
 
-export default function LoginScreen() {
+let navigateToMain = 0
+
+export default function LoginScreen({ navigation }) {
+  navigateToMain = () => {
+    navigation.navigate('Main');
+  }
   return (
-    <WebView
+    <WebView style={styles.contentContainer}
        source={{uri:"https://api.instagram.com/oauth/authorize?client_id=523772874878112&redirect_uri=https://abnvar.htmlsave.com/&scope=user_profile,user_media&response_type=code"}}
        onNavigationStateChange={_onNavigationStateChange}
      />
-  )
+  );
 }
 
 async function _onNavigationStateChange(webViewState){
-  if (webViewState.url.slice(0,29) == "https://abnvar.htmlsave.net/?" && access_token_awaited) {
+  if (webViewState.url.slice(0,29) == "https://abnvar.htmlsave.net/?") {
     code = webViewState.url.slice(34,-2);
-    console.log(code);
 
     let form = new FormData();
 
@@ -39,9 +46,31 @@ async function _onNavigationStateChange(webViewState){
     const response = await fetch('https://api.instagram.com/oauth/access_token', {
       method: 'POST',
       body: form,
-    }).then(response => response.json()).then(data => console.log(JSON.stringify(data))).catch((error) => {console.error('Error:', error);});
+    }).then(response => response.json()).then(setAccessToken).catch((error) => {console.error('Error:', error);});
   }
 }
+
+function setAccessToken(data) {
+  if (access_token_retrieved == 0 && data.access_token != undefined) {
+    access_token = data.access_token;
+    user_id = data.user_id;
+    access_token_retrieved = 1;
+    getUserData();
+  }
+}
+
+function getUserData() {
+  let url = 'https://graph.instagram.com/me?fields=id,username&access_token='+access_token
+  fetch(url, {method: 'GET'}).then(response => response.json()).then((response) => {username = response.username; AsyncStorage.setItem('username', username); console.log(username);}).catch((error) => {console.error('Error:', error);});
+  navigateToMain();
+}
+
+{/*
+function getName() {
+  let url = 'https://www.instagram.com/'+username+'/?__a=1';
+  fetch(url, {method: 'GET'}).then(response => response.json()).then((response) => {console.log(response);}).catch((error) => {console.error('Error:', error);});
+}
+*/}
 
 {/*}
 let response = fetch('https://api.instagram.com/v1/users/self/?access_token='+code, {
@@ -94,7 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
   },
   contentContainer: {
-    paddingTop: 15,
+    paddingTop: 0,
   },
   optionIconContainer: {
     marginRight: 12,
